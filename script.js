@@ -46,7 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const submitBtn = contactForm.querySelector('button');
             const originalText = submitBtn.innerText;
-            const data = new FormData(contactForm);
+            
+            // Collect Form Data correctly
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData.entries());
             
             // CONFIGURATION FORMSPREE
             const FORMSPREE_ENDPOINT = "https://formspree.io/f/tanjonaaina559@gmail.com"; 
@@ -58,8 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch(FORMSPREE_ENDPOINT, {
                     method: 'POST',
-                    body: data,
+                    body: JSON.stringify(data), // Send as JSON
                     headers: {
+                        'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     }
                 });
@@ -69,20 +73,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
                     submitBtn.style.opacity = '1';
                     contactForm.reset();
+                    
+                    // Information for the user regarding confirmation
+                    console.log("NOTE: Si c'est le premier envoi, vérifiez vos mails (tanjonaaina559@gmail.com) pour activer le formulaire.");
                 } else {
-                    throw new Error('Erreur lors de l\'envoi');
+                    const errorResponse = await response.json();
+                    console.error("Erreur serveur:", errorResponse);
+                    throw new Error('Erreur');
                 }
             } catch (error) {
-                submitBtn.innerText = 'Erreur d\'envoi ❌';
+                console.error("Erreur d'envoi", error);
+                submitBtn.innerText = "Erreur d'envoi ❌";
                 submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)';
                 submitBtn.style.opacity = '1';
+                alert("Erreur: Assurez-vous d'être connecté à Internet et d'avoir déjà créé/confirmé votre compte sur Formspree.io.");
             } finally {
-                // Reset after 4 seconds
+                // Reset button after a delay
                 setTimeout(() => {
                     submitBtn.innerText = originalText;
                     submitBtn.disabled = false;
                     submitBtn.style.background = '';
-                }, 4000);
+                }, 5000);
             }
         });
     }
