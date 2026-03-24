@@ -42,29 +42,48 @@ document.addEventListener('DOMContentLoaded', () => {
     // Form logic
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = contactForm.querySelector('button');
             const originalText = submitBtn.innerText;
+            const data = new FormData(contactForm);
             
-            // Basic animation for feedback
-            submitBtn.innerText = 'Sending...';
+            // REMPLACER PAR VOTRE ID FORMSPREE OU EMAIL
+            const FORMSPREE_ENDPOINT = "https://formspree.io/f/mon-id-formspree"; 
+
+            submitBtn.innerText = 'Envoi en cours...';
             submitBtn.disabled = true;
             submitBtn.style.opacity = '0.5';
 
-            setTimeout(() => {
-                submitBtn.innerText = 'Message Sent! ✨';
-                submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            try {
+                const response = await fetch(FORMSPREE_ENDPOINT, {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    submitBtn.innerText = 'Message Envoyé ! ✨';
+                    submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                    submitBtn.style.opacity = '1';
+                    contactForm.reset();
+                } else {
+                    throw new Error('Erreur lors de l\'envoi');
+                }
+            } catch (error) {
+                submitBtn.innerText = 'Erreur d\'envoi ❌';
+                submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)';
                 submitBtn.style.opacity = '1';
-                
-                // Reset after 3 seconds
+            } finally {
+                // Reset after 4 seconds
                 setTimeout(() => {
                     submitBtn.innerText = originalText;
                     submitBtn.disabled = false;
                     submitBtn.style.background = '';
-                    contactForm.reset();
-                }, 3000);
-            }, 1000);
+                }, 4000);
+            }
         });
     }
 
