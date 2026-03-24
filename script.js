@@ -73,20 +73,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
                     submitBtn.style.opacity = '1';
                     contactForm.reset();
-                    
-                    // Information for the user regarding confirmation
-                    console.log("NOTE: Si c'est le premier envoi, vérifiez vos mails (tanjonaaina559@gmail.com) pour activer le formulaire.");
                 } else {
                     const errorResponse = await response.json();
-                    console.error("Erreur serveur:", errorResponse);
-                    throw new Error('Erreur');
+                    let errorMsg = "Erreur d'envoi. ";
+                    if (errorResponse.errors && errorResponse.errors.length > 0) {
+                        errorMsg += errorResponse.errors.map(e => e.message).join(", ");
+                    } else if (errorResponse.error) {
+                        errorMsg += errorResponse.error;
+                    } else {
+                        errorMsg += "Assurez-vous d'avoir confirmé votre mail Formspree.";
+                    }
+                    alert(errorMsg);
+                    throw new Error(errorMsg);
                 }
             } catch (error) {
-                console.error("Erreur d'envoi", error);
-                submitBtn.innerText = "Erreur d'envoi ❌";
+                console.error("Erreur d'envoi detail:", error);
+                submitBtn.innerText = "Échec ❌";
                 submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)';
                 submitBtn.style.opacity = '1';
-                alert("Erreur: Assurez-vous d'être connecté à Internet et d'avoir déjà créé/confirmé votre compte sur Formspree.io.");
             } finally {
                 // Reset button after a delay
                 setTimeout(() => {
