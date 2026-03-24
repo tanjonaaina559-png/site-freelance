@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanjona Aina | Portfolio Freelance</title>
+    <!-- Favicon link would go here -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Meta for SEO -->
+    <meta name="description"
+        content="Tanjona Aina - Junior Freelance Web Developer specializing in clean, modern, and responsive website creation using HTML, CSS, and JavaScript.">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Tanjona.Dev</div>
+        <ul class="nav-links">
+            <li><a href="#home">Accueil</a></li>
+            <li><a href="#about">À Propos</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1>Expert en <span class="gradient-text">Web Design</span> & <span class="gradient-text">Code</span></h1>
+            <p class="hero-p">
+                Je transforme vos idées en expériences numériques captivantes avec une touche de créativité et de
+                précision technique.
+            </p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn btn-primary">Démarrer un Projet</a>
+                <!-- Link to portfolio or more info -->
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="assets/465072185_1951692411996075_4411665682992708934_n.jpg"
+                alt="Tanjona Aina Avatar">
+        </div>
+    </header>
+
+    <section id="about">
+        <h2 class="section-title">À Propos de <span class="gradient-text">Moi</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>RAMANANTSOA Tanjona Aina Fitiavana</h3>
+                <p>
+                    Développeur web freelance passionné, je m'efforce de créer des sites web qui ne sont pas seulement
+                    fonctionnels, mais aussi esthétiquement exceptionnels. Mon approche est centrée sur l'utilisateur et
+                    la performance.
+                </p>
+            </div>
+            <div class="service-card">
+                <h3>Ma Vision</h3>
+                <p>
+                    Le web doit être accessible, rapide et beau. J'utilise les dernières technologies pour garantir que
+                    chaque projet dépasse les attentes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <h2 class="section-title">Mes <span class="gradient-text">Services</span></h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <i class="fas fa-laptop-code"></i>
+                <h3>Création de Sites</h3>
+                <p>Des sites vitrines élégants et professionnels pour booster votre présence en ligne.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-layer-group"></i>
+                <h3>Frontend Moderne</h3>
+                <p>Design épuré et ultra-réactif (Responsive Design) avec les meilleures pratiques de code.</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-bug-slash"></i>
+                <h3>Maintenance & Correctifs</h3>
+                <p>Analyse de bugs et optimisation de vos sites existants pour une performance optimale.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-title">Parlons de votre <span class="gradient-text">Projet</span></h2>
+        <div class="contact-container">
+            <form id="contactForm">
+                <div class="input-group">
+                    <label for="name">Votre Nom</label>
+                    <input type="text" id="name" placeholder="Ex: Jean Dupont" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Votre Email</label>
+                    <input type="email" id="email" placeholder="Ex: jean@exemple.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="message">Description du projet</label>
+                    <textarea id="message" placeholder="Dites-moi en plus sur ce que vous souhaitez..."
+                        required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer le message <i
+                        class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 - Tanjona.Dev | Créé avec passion pour le web.</p>
+        <div style="margin-top: 1rem;">
+            <a href="#" style="color: var(--text-secondary); margin: 0 10px; text-decoration: none;"><i
+                    class="fab fa-linkedin"></i></a>
+            <a href="#" style="color: var(--text-secondary); margin: 0 10px; text-decoration: none;"><i
+                    class="fab fa-github"></i></a>
+            <a href="https://www.facebook.com/dev.tanjona"
+                style="color: var(--text-secondary); margin: 0 10px; text-decoration: none;" target="_blank"><i
+                    class="fab fa-facebook"></i></a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
