@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const originalText = submitBtn.innerText;
             const data = new FormData(contactForm);
             
-            // REMPLACER PAR VOTRE ID FORMSPREE OU EMAIL
-            const FORMSPREE_ENDPOINT = "https://formspree.io/f/mon-id-formspree"; 
+            // CONFIGURATION FORMSPREE
+            const FORMSPREE_ENDPOINT = "https://formspree.io/f/tanjonaaina559@gmail.com"; 
 
             submitBtn.innerText = 'Envoi en cours...';
             submitBtn.disabled = true;
