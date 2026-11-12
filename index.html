@@ -106,8 +106,11 @@
                     <textarea id="message" name="message" placeholder="Dites-moi en plus sur ce que vous souhaitez..."
                         required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Envoyer le message <i
-                        class="fas fa-paper-plane"></i></button>
+                <button type="submit" class="btn btn-primary">
+    Envoyer le message <i class="fas fa-paper-plane"></i>
+</button>
+
+<p id="form-status" role="status" aria-live="polite"></p>
             </form>
         </div>
     </section>
@@ -125,7 +128,8 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="script.js"></script>
 </body>
 
 </html>
