@@ -1,21 +1,37 @@
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Reveal animation
-    const revealElements = document.querySelectorAll('section, header, .service-card, .contact-container');
-    
+
+    // CONFIGURATION EMAILJS
+    const SERVICE_ID = "service_ewbk7sn";
+    const TEMPLATE_ID = "template_qgfo94u";
+    const PUBLIC_KEY = "tf8bwbPQEXucEwNh9";
+
+    if (typeof emailjs === "undefined") {
+        console.error("La bibliothèque EmailJS n'est pas chargée.");
+        return;
+    }
+
+    emailjs.init({
+        publicKey: PUBLIC_KEY
+    });
+
+    // ANIMATIONS
+    const revealElements = document.querySelectorAll(
+        'section, header, .service-card, .contact-container'
+    );
+
     const reveal = () => {
         revealElements.forEach(el => {
             const windowHeight = window.innerHeight;
             const elementTop = el.getBoundingClientRect().top;
-            const elementVisible = 150;
-            
-            if (elementTop < windowHeight - elementVisible) {
+
+            if (elementTop < windowHeight - 150) {
                 el.style.opacity = '1';
                 el.style.transform = 'translateY(0)';
             }
         });
     };
 
-    // Initial styles for animation
     revealElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
@@ -23,13 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('scroll', reveal);
-    reveal(); // Initial call
+    reveal();
 
-    // Smooth scroll for anchors
+    // DÉFILEMENT FLUIDE
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+
+            const target = document.querySelector(
+                this.getAttribute('href')
+            );
+
             if (target) {
                 window.scrollTo({
                     top: target.offsetTop - 80,
@@ -39,78 +59,84 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Form logic
+    // FORMULAIRE EMAILJS
     const contactForm = document.getElementById('contactForm');
+
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const submitBtn = contactForm.querySelector('button');
-            const originalText = submitBtn.innerText;
-            
-            // Collect Form Data correctly
-            const formData = new FormData(contactForm);
-            const data = Object.fromEntries(formData.entries());
-            
-            // CONFIGURATION FORMSPREE
-            const FORMSPREE_ENDPOINT = "https://formspree.io/f/tanjonaaina559@gmail.com"; 
 
-            submitBtn.innerText = 'Envoi en cours...';
+            const submitBtn = contactForm.querySelector(
+                'button[type="submit"]'
+            );
+
+            const status = document.getElementById('form-status');
+            const originalText = submitBtn.innerHTML;
+
             submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.5';
+            submitBtn.innerHTML = 'Envoi en cours...';
+
+            if (status) {
+                status.textContent = '';
+            }
+
+            const templateParams = {
+                name: contactForm.elements['name'].value,
+                email: contactForm.elements['email'].value,
+                location: contactForm.elements['location'].value,
+                message: contactForm.elements['message'].value
+            };
 
             try {
-                const response = await fetch(FORMSPREE_ENDPOINT, {
-                    method: 'POST',
-                    body: JSON.stringify(data), // Send as JSON
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    }
-                });
+                await emailjs.send(
+                    SERVICE_ID,
+                    TEMPLATE_ID,
+                    templateParams
+                );
 
-                if (response.ok) {
-                    submitBtn.innerText = 'Message Envoyé ! ✨';
-                    submitBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                    submitBtn.style.opacity = '1';
-                    contactForm.reset();
-                } else {
-                    const errorResponse = await response.json();
-                    let errorMsg = "Erreur d'envoi. ";
-                    if (errorResponse.errors && errorResponse.errors.length > 0) {
-                        errorMsg += errorResponse.errors.map(e => e.message).join(", ");
-                    } else if (errorResponse.error) {
-                        errorMsg += errorResponse.error;
-                    } else {
-                        errorMsg += "Assurez-vous d'avoir confirmé votre mail Formspree.";
-                    }
-                    alert(errorMsg);
-                    throw new Error(errorMsg);
+                if (status) {
+                    status.textContent =
+                        'Votre message a été envoyé avec succès !';
+                    status.style.color = '#10b981';
                 }
+
+                submitBtn.innerHTML = 'Message envoyé ! ✨';
+                contactForm.reset();
+
             } catch (error) {
-                console.error("Erreur d'envoi detail:", error);
-                submitBtn.innerText = "Échec ❌";
-                submitBtn.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)';
-                submitBtn.style.opacity = '1';
+                console.error('Erreur EmailJS :', error);
+
+                if (status) {
+                    status.textContent =
+                        "Erreur d'envoi. Veuillez réessayer.";
+                    status.style.color = '#ef4444';
+                }
+
+                submitBtn.innerHTML = 'Échec ❌';
+
             } finally {
-                // Reset button after a delay
                 setTimeout(() => {
-                    submitBtn.innerText = originalText;
                     submitBtn.disabled = false;
-                    submitBtn.style.background = '';
+                    submitBtn.innerHTML = originalText;
                 }, 5000);
             }
         });
     }
 
-    // Dynamic Navigation background
+    // NAVIGATION DYNAMIQUE
     const nav = document.querySelector('nav');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            nav.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 1)';
-            nav.style.padding = '1rem 10%';
-        } else {
-            nav.style.boxShadow = 'none';
-            nav.style.padding = '1.5rem 10%';
-        }
-    });
+
+    if (nav) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                nav.style.boxShadow =
+                    '0 10px 30px rgba(0, 0, 0, 1)';
+                nav.style.padding = '1rem 10%';
+            } else {
+                nav.style.boxShadow = 'none';
+                nav.style.padding = '1.5rem 10%';
+            }
+        });
+    }
+
 });
